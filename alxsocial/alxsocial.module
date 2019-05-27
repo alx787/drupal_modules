@@ -1,0 +1,149 @@
+<?php
+
+
+function alxsocial_block_info() { 
+  $blocks['alxsocial-shared-links'] = array('info' => 'Ссылки ПОДЕЛИТЬСЯ для социальных сетей в блоке');
+  return $blocks;
+}
+
+function alxsocial_block_view($delta = '') {
+  $block = array();
+ 
+  if ($delta == 'alxsocial-shared-links') {
+    $block['subject'] = 'Поделиться';
+    $block['content'] = alxsocial_block_content();
+  }
+ 
+  return $block;
+}
+
+
+// Как определить URL текущей страницы в Drupal 7
+// Я нашел несколько способов определения адреса текущей страницы в Drupal 7
+
+// 1. С помощью токенов
+
+// print token_replace('[current-page:url]');
+// 2. Использовать глобальную переменную $base_root и функцию request_uri()
+
+// global $base_root;
+// print $base_root . request_uri();
+// 3. Использовать $_SERVER
+
+// print 'http://' .$_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
+// Все способы рабочие, я проверил. Какой использовать вам - выбирайте сами.
+
+
+// функция формирует кнопку соцсети
+//
+// $imgsoc - ссылка на картинку с логотипами соцсетей
+// $soctitle - скрытый комментарий о том в какую соц сеть ссылка
+// $jslink - ссылка на соцсеть с параметрами, вставляется в тег javascript
+// $coord - координата - смещение кадра в картинке с логотипами
+
+function alxsocial_get_social_item($imgsoc, $soctitle, $jslink, $coord) {
+  //$style = 'display:block;width:32px;height:32px;margin:0 0 6px;padding:0;outline:none;background:url(' . $imgsoc . ') ' . $coord . ' 0 no-repeat';
+
+  $style = 'display:block;width:32px;height:32px;outline:none;background:url(' . $imgsoc . ') ' . $coord . ' 0 no-repeat';
+
+
+  $js = 'window.open(\'' . $jslink . '\', \'_blank\', \'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0\');return false';
+
+  $totalcontent = '<a rel="nofollow" style="' . $style . '" href="#" onclick="' . $js . '" title="' . $soctitle . '" target="_blank"></a>';
+
+  $totalcontent = '<div class="soclink">' . $totalcontent . '</div>';
+
+
+  return $totalcontent;
+}
+
+
+
+
+function alxsocial_block_content() {
+
+  // dpm(drupal_get_path('module', 'alxsocial'));
+  // dpm(base_path());
+  // dpm(request_uri());
+  // dpm(request_path());
+  // dpm(current_path());
+
+  //dpm(drupal_get_title());
+
+  // адрес картинки
+  $imgsoc_url = 'http://' . $_SERVER['HTTP_HOST'] . base_path() . drupal_get_path('module', 'alxsocial') . '/socicons.png';
+  // адрес текущей страницы
+  $current_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  // заголовок текущей страницы
+  $current_title = drupal_get_title();
+
+  // переопределяем заголовок для некоторых страниц тк там ссылка
+  $rec_path = request_path();
+  if ($rec_path == 'actions') {
+    $current_title = 'Акции';
+  }
+
+  if ($rec_path == 'novinki') {
+    $current_title = 'Новинки';
+  }
+
+  if ($rec_path == 'leaders') {
+    $current_title = 'Лидеры продаж';
+  }
+
+  if ($rec_path == 'news') {
+    $current_title = 'Новости';
+  }
+
+  if ($rec_path == 'rasprodazha') {
+    $current_title = 'Распродажа';
+  }
+
+  $content = '';
+
+
+
+  ////////////////////////////////////////////////////
+  // facebook
+  ////////////////////////////////////////////////////
+  $jslink_f = 'http://www.facebook.com/sharer.php?u=' . $current_url;
+  $content .= alxsocial_get_social_item($imgsoc_url, 'Поделиться в Facebook', $jslink_f, "-0px");
+
+  ////////////////////////////////////////////////////
+  // google plus
+  ////////////////////////////////////////////////////
+  $jslink_f = 'https://plus.google.com/share?url=' . $current_url;
+  $content .= alxsocial_get_social_item($imgsoc_url, 'Поделиться в Google+', $jslink_f, "-32px");
+
+  ////////////////////////////////////////////////////
+  // Мой Мир@Mail.Ru
+  ////////////////////////////////////////////////////
+  $jslink_f = 'http://connect.mail.ru/share?url=' . $current_url . '&title=' . $current_title . '&description=&imageurl=null';
+  $content .= alxsocial_get_social_item($imgsoc_url, 'Поделиться в Мой Мир@Mail.Ru', $jslink_f, "-96px");
+
+
+  ////////////////////////////////////////////////////
+  // одноклассники
+  ////////////////////////////////////////////////////
+  $jslink_f = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st._surl=' . $current_url . '&title=' . $current_title;
+  $content .= alxsocial_get_social_item($imgsoc_url, 'Добавить в Одноклассники', $jslink_f, "-128px");
+
+  ////////////////////////////////////////////////////
+  // Twitter
+  ////////////////////////////////////////////////////
+  $jslink_f = 'https://twitter.com/intent/tweet?text=' . $current_title . '&url=' . $current_url;
+  $content .= alxsocial_get_social_item($imgsoc_url, 'Добавить в Twitter', $jslink_f, "-160px");
+
+  ////////////////////////////////////////////////////
+  // В Контакте
+  ////////////////////////////////////////////////////
+  $jslink_f = 'http://vk.com/share.php?url=' . $current_url . '&title=' . $current_title;
+  $content .= alxsocial_get_social_item($imgsoc_url, 'Поделиться В Контакте', $jslink_f, "-192px");
+
+
+  $content = '<div class="clearfix">' . $content . '</div>';
+
+  return $content;
+}
+
+ 

@@ -1,0 +1,24 @@
+<?php
+
+
+function alxtest_schema() {
+	$schema['alxt'] = array(
+		'description' => 'Заказы',
+		'fields' => array(
+			'id' => array(
+				'type' => 'serial',
+				'length' => 10,
+				'not null' => TRUE,
+				'description' => 'код заказа',
+			),
+			'body' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'тело заявки',
+			),
+		),
+		'primary key' => array('id'),
+	);
+	return $schema;
+}
+

@@ -1,0 +1,11 @@
+name = alxordercall
+description = Заказать обратный звонок
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxordercall.module
+configure = admin/config/callbackform
+
+stylesheets[all][] = alxordercallstyle.css
+
+scripts[] = alxordercall.js

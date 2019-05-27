@@ -1,0 +1,6 @@
+name = alxexchange
+description = Обмен данными с 1С
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxexchange.module

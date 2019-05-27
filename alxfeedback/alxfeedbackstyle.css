@@ -1,0 +1,29 @@
+#alxfeedback-form .captcha img {
+    margin: 0 0 0 39px;
+    border: 1px solid #DBDBFF;
+}
+
+#alxfeedback-form .form-type-textarea label {
+	display: none;
+}
+
+ #alxfeedback-form textarea  {
+ 	padding: 5px;
+    border: 1px solid  #988EBD;
+    border-radius: 5px;
+    resize: none;
+ }
+
+/*
+#alxfeedback-form #edit-submit {
+	color: #FFFFFF;
+	background-color: #3E4190;
+	border: none;
+	border-radius: 5px;
+	height: 28px;
+	width: 120px;
+	font-weight: bold;
+	font-size: 14px;
+	cursor: pointer;
+}
+*/

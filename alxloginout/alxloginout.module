@@ -1,0 +1,79 @@
+<?php
+/**
+ * Implements hook_block_info().
+ * Информация о блоке и дефолтные настройки.
+ */
+function alxloginout_block_info() {
+  $blocks['user-login-logout-button'] = array(
+  'info' => t('Кнопка входа на сайт'),
+  'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+function alxloginout_init() {
+  //dpm(drupal_get_path('module', 'alxloginout'));
+  drupal_add_js(drupal_get_path('module', 'alxloginout') . '/alxloginoutscript.js');
+  drupal_add_css(drupal_get_path('module', 'alxloginout') . '/alxloginoutstyles.css');
+}    
+
+function alxloginout_get_content() {
+  global $user;
+  $content = 'Вы можете <span class="login_link">войти</span> или ' . l("зарегистрироваться", "user/register");
+
+  if ($user->uid != 0) {
+    $content = l("$user->name", "user/" . $user->uid . "/edit") . ' (' . l("выход", "user/logout", array('attributes' => array('class' => array('logout_link')))) . ')';
+  }
+
+  return $content;
+}
+
+ 
+/**
+ * Implements hook_block_view().
+ * Генерация заголовка блока и его контента.
+ */
+function alxloginout_block_view($delta = '') {
+  $block = array();
+ 
+  switch ($delta) {
+    case 'user-login-logout-button':
+      $block['subject'] = t('Вход на сайт');
+      $block['content'] = alxloginout_get_content();
+      break;
+  }
+
+  return $block;
+}
+
+
+/**
+ * разные вспомогательные функции не имеющие прямого отношения к функционалу модуля
+ * но необходимые для работы
+ */
+
+
+/**
+ * убираем на время путь админского редактирования профиля
+ */
+// function alxloginout_admin_paths_alter(&$paths) {
+//   $paths['user/*/edit'] = FALSE;
+// }
+
+function alxloginout_menu_alter(&$items) {
+
+  //dpm($items);
+
+  // $items['node/%node/track']['type'] = MENU_CALLBACK;
+  // $items['user/%user/track']['type'] = MENU_CALLBACK;
+  // $items['search/user/%menu_tail']['type'] = MENU_CALLBACK;  
+  // $items['user/%user/edit']['type'] = MENU_CALLBACK;  
+
+ // dpm($items);
+
+
+  $items['user/%user/edit']['type'] = MENU_CALLBACK;  
+  $items['user/register']['type'] = MENU_CALLBACK;  
+  $items['user']['type'] = MENU_CALLBACK;  
+  $items['user/password']['type'] = MENU_CALLBACK;  
+}

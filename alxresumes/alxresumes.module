@@ -1,0 +1,161 @@
+<?php
+
+function alxresumes_menu() {
+
+    $items['fillresume'] = array(
+        'title' => 'Заполнить резюме',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('alxresumes_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM
+    );
+
+  return $items;
+}
+
+
+function alxresumes_form($form_state, &$form_submit) {
+  // global $user;
+
+  // $username = ''; $useremail = ''; $userphone = '';
+
+  // if($user->uid != 0) {
+  //   $user = user_load($user->uid);
+
+  //   $username = $user->field_fio['und'][0]['safe_value'];
+  //   $userphone = $user->field_phone['und'][0]['safe_value'];
+  //   $useremail = $user->mail;
+  // }
+
+
+  // $form['how_to_address'] = array(
+  //   '#markup' => '<p>Здесь Вы можете отправить сообщение главному редактору сайта.</p>',
+  // );
+
+  // $form['intro_message'] = array(
+  //   '#markup' => '<p>Если у Вас появились вопросы по работе нашего сайта, если Вы нашли неточность в материалах или у Вас есть предложение по улучшению обслуживания, Вы можете отправить сообщение по любому вопросу. Пожалуйста, заполните форму сообщения. Ваше сообщение будет прочитано и учтено в дальнейшей работе.</p>',
+  // );
+
+    $form['fio'] = array(
+        '#title' => t('Фамилия, Имя, Отчество'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#maxlength' => 100,
+        '#size' => 100,
+    );
+
+  // $form['necessary_label'] = array(
+  //   '#markup' => '<p>Заполните телефон или e-mail для обратной связи</p>',
+  // );
+
+    $form['birthplacedate'] = array(
+        '#title' => t('Дата и место рождения'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#maxlength' => 100,
+        '#size' => 100,
+    );
+
+    $form['phones'] = array(
+        '#title' => t('Контактные телефоны'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#maxlength' => 100,
+        '#size' => 100,
+    );
+
+    $form['post'] = array(
+        '#title' => t('Должность, на которую претендуете'),
+        '#type' => 'textarea',
+        '#required' => TRUE,
+        '#rows' => 2,
+        '#cols' => 50,
+        '#resizable' => FALSE
+    );
+
+    $form['addrreg'] = array(
+        '#title' => t('Адрес регистрации'),
+        '#type' => 'textarea',
+        '#required' => FALSE,
+        '#rows' => 2,
+        '#cols' => 50,
+        '#resizable' => FALSE
+    );
+
+    $form['addrfakt'] = array(
+        '#title' => t('Адрес фактического проживания'),
+        '#type' => 'textarea',
+        '#required' => FALSE,
+        '#rows' => 2,
+        '#cols' => 50,
+        '#resizable' => FALSE
+    );
+
+    $form['familystat'] = array(
+        '#title' => t('Семейное положение, дети'),
+        '#type' => 'textarea',
+        '#required' => FALSE,
+        '#rows' => 2,
+        '#cols' => 50,
+        '#resizable' => FALSE
+    );
+
+    $form['salarylevel'] = array(
+        '#title' => t('Ожидаемый уровень заработной платы'),
+        '#type' => 'textarea',
+        '#required' => FALSE,
+        '#rows' => 2,
+        '#cols' => 50,
+        '#resizable' => FALSE
+    );
+
+    $form['eduinst'] = array(
+        '#title' => t('Название учебного заведения'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
+        '#maxlength' => 100,
+        '#size' => 100,
+    );
+
+    $form['edudate'] = array(
+        '#title' => t('Дата поступления/окончания'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
+        '#maxlength' => 100,
+        '#size' => 100,
+    );
+
+    $form['eduspecialty'] = array(
+        '#title' => t('Специальность'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
+        '#maxlength' => 100,
+        '#size' => 100,
+    );
+
+    $form['eduaddition'] = array(
+        '#title' => t('Дополнительное образование'),
+        '#type' => 'textarea',
+        '#required' => FALSE,
+        '#rows' => 2,
+        '#cols' => 50,
+        '#resizable' => FALSE
+    );
+
+
+
+
+
+    $form['submit'] = array(
+        '#type'=>'submit',
+        '#value'=>t('Отправить'),
+    );
+
+
+
+  return $form;
+}
+
+
+
+

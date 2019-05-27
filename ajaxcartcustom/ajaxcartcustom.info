@@ -1,0 +1,6 @@
+name = ajaxcartcustom
+description = module for dynamically chang drupal commerce cart (from drupalbook.ru)
+core = 7.x
+package = Custom
+scripts[] = js/custom.js
+stylesheets[all][] = css/custom.css

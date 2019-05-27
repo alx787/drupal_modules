@@ -1,0 +1,6 @@
+name = alxloginout
+description = User login - logout button in header
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxloginout.module

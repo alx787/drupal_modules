@@ -1,0 +1,106 @@
+<?php
+
+function alxordercall_menu() {
+	$items['callbackform'] = array(
+	    'title' => 'Заказать обратный звонок',
+    	'page callback' => 'drupal_get_form',
+	    'page arguments' => array('alxordercall_form'),
+	    'access callback' => TRUE,
+	    'type' => MENU_NORMAL_ITEM,
+	    'file' => 'ordercall.user.inc',
+	);
+
+  $items['callbackreceived'] = array(
+      'title' => 'Ваша заявка принята',
+      'page callback' => 'alxordercall_callbackreceived',
+      'access callback' => TRUE,
+      'type' => MENU_NORMAL_ITEM,
+  );
+
+  // административная часть
+  $items['admin/config/callbackform'] = array(
+    'title' => 'Заявки на обратный звонок',
+    'description' => 'Заявки на обратный звонок',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/callbackform/readorder'] = array(
+    'title' => 'Заявки на обратный звонок',
+    'description' => 'Заявки принятые с сайта',
+    'page callback' => 'callorder_list',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ordercall_list.admin.inc',
+  );
+
+  $items['admin/config/callbackform/readorder/%'] = array(
+    'title' => 'Заявка обратного звонка',
+    'description' => 'Заявка обратного звонка',
+    'page callback' => 'show_callorder',
+    'page arguments' => array(4),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ordercall_msg.admin.inc',
+  );
+
+  $items['admin/config/callbackform/setorderstatus/%/%'] = array(
+    'title' => 'Смена статуса заявки',
+    'description' => 'Смена статуса заявки',
+    'page callback' => 'change_callorder_status',
+    'page arguments' => array(4, 5),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ordercall_status.admin.inc',
+  );
+
+
+	return $items;
+}
+
+
+// страница в конце формы заказа звонка
+function alxordercall_callbackreceived() {
+  $msg = '<p>Ваша заявка принята. Наш менеджер перезвонит Вам</p>';
+  $msg .= '<p>' . l('Главная страница', '<front>') . '</p>';
+
+  return $msg;
+}
+
+
+// темизация формы заказа
+function alxordercall_theme($existing, $type, $theme, $path)
+{
+  return array(
+    'alxordercall_form' => array(
+      'arguments' => array('form' => NULL),
+      'render element' => 'form',
+      'template' => 'alxordercall-form',
+      'path' => drupal_get_path('module', 'alxordercall'),
+    ),
+  );
+  
+}
+
+// блок в шапке сайта
+function alxordercall_block_info() {
+  $blocks['link-to-callback-block'] = array(
+    'info' => t('Заказ обратного звонка (шапка сайта)'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+// содержимое блока
+function alxordercall_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'link-to-callback-block':
+      $block['subject'] = t('Заказ обратного звонка');
+      //$block['content'] = "<div class=\"header_menu_catalog\">" . l("Каталог товаров", "products") . "</div>";
+      $block['content'] = l("Заказать обратный звонок", "callbackform");
+      break;
+  }
+  return $block;
+}

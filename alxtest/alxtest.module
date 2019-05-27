@@ -1,0 +1,16 @@
+<?php
+
+function alxtest_menu() {
+
+  $items['admin/config/alxtest'] = array(
+//  $items['admin/config/pricelist/dataexchange'] = array(
+    'title' => '_Обмен данными с 1С через таблицы обмена',
+    'page arguments' => array('alxexchange_form'),
+//    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('administer site configuration'),
+    //'weight' => -200,
+  );
+
+  return $items;
+}

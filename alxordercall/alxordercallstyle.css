@@ -1,0 +1,25 @@
+/* заголовок обратный звонок */
+
+#block-alxordercall-link-to-callback-block .content {
+	float:left;
+	height: 68px;
+	width: 120px;
+	/*background: url(../../../../../../images/phone.png) no-repeat 72px 10px #FFFFFF;*/
+	background: url(phone.png) no-repeat 72px 10px #FFFFFF;
+}
+
+#block-alxordercall-link-to-callback-block .content a {
+	display: block;
+	padding: 21px 37px 0 0;
+	height: 47px;
+	width: 83px;
+	font-size: 10px;
+	font-weight: bold;
+	color: #FF0000;
+	text-align: center;
+	text-decoration: none;
+}
+
+#block-alxordercall-link-to-callback-block .content a:hover {
+	text-decoration: underline;	
+}

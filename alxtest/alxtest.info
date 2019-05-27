@@ -1,0 +1,6 @@
+name = alxtest
+description = dlya testirovania
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxtest.module

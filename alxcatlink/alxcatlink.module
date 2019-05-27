@@ -1,0 +1,31 @@
+<?php
+/**
+ * Implements hook_block_info().
+ * Информация о блоке и дефолтные настройки.
+ */
+function alxcatlink_block_info() {
+  $blocks['link-to-full-product-catalog'] = array(
+    'info' => t('Блок содержит ссылку на полный каталог товаров'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+ 
+/**
+ * Implements hook_block_view().
+ * Генерация заголовка блока и его контента.
+ */
+function alxcatlink_block_view($delta = '') {
+  $block = array();
+ 
+  switch ($delta) {
+    case 'link-to-full-product-catalog':
+      $block['subject'] = t('Ссылка на полный каталог');
+      //$block['content'] = "<div class=\"header_menu_catalog\">" . l("Каталог товаров", "products") . "</div>";
+      $block['content'] = l("Каталог товаров", "products");
+      break;
+  }
+
+
+  return $block;
+}

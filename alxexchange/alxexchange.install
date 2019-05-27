@@ -1,0 +1,412 @@
+<?php
+
+// добавить идентификатор и имя пользователя если зарегистрирован
+
+function alxexchange_schema() {
+	$schema['catalog'] = array(
+		'description' => 'Каталог товаров для загрузки в commerce',
+		'fields' => array(
+			'id' => array(
+				'type' => 'varchar',
+				'length' => 8,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'код товара в каталоге',
+			),
+			'groupid' => array(
+				'type' => 'varchar',
+				'length' => 8,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'код группы каталога',
+			),
+			'date' => array(
+				'type' => 'date',
+				'mysql_type' => 'date',
+				'not null' => TRUE,
+				'description' => 'дата добавления',
+			),
+			'name' => array(
+				'type' => 'varchar',
+				'length' => 100,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'название',
+			),
+			'nomerizd' => array(
+				'type' => 'int',
+				'mysql_type' => 'smallint',
+				'length' => 2,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'количество страниц',
+			),
+			'cover' => array(
+				'type' => 'varchar',
+				'length' => 20,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'обложка',
+			),
+			'agelimit' => array(
+				'type' => 'varchar',
+				'length' => 5,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'возрастное ограничение',
+			),
+			'izdat' => array(
+				'type' => 'varchar',
+				'length' => '100',
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'издательство',
+			),
+			'godizdan' => array(
+				'type' => 'varchar',
+				'length' => 4,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'издательство',
+			),
+			'pages' => array(
+				'type' => 'varchar',
+				'length' => 5,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'издательство',
+			),
+			'author' => array(
+				'type' => 'varchar',
+				'length' => 100,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'автор',
+			),
+			'isbn' => array(
+				'type' => 'varchar',
+				'length' => 20,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'isbn',
+			),
+			'annot' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'анотация',
+			),
+			'content' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'подробно',
+			),
+			'price' => array(
+				'type' => 'numeric',
+				'precision' => 8,
+				'scale' => 2,
+				'decimal' => '.',
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'цена',
+			),
+			'cnt' => array(
+				'type' => 'int',
+				'mysql_type' => 'smallint',
+				'length' => 4,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'количество на складе',
+			),
+			'published' => array(
+				'type' => 'int',
+				'mysql_type' => 'tinyint',
+				'length' => 1,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'опубликовано',
+			),
+			'supplcode' => array(
+				'type' => 'varchar',
+				'length' => 18,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => '',
+			),
+
+		),
+		'primary key' => array('id'),
+	);
+
+
+	$schema['catstruct'] = array(
+		'description' => 'Каталог товаров для загрузки в commerce',
+		'fields' => array(
+			'levelid' => array(
+				'type' => 'varchar',
+				'length' => 15,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'код уровня',
+			),
+			'parcode' => array(
+				'type' => 'varchar',
+				'length' => 10,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'код родителя',
+			),
+			'levcode' => array(
+				'type' => 'varchar',
+				'length' => 2,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'код подуровня',
+			),
+			'levorder' => array(
+				'type' => 'int',
+				'mysql_type' => 'smallint',
+				'length' => 2,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'уровень',
+			),
+			'levname' => array(
+				'type' => 'varchar',
+				'length' => 100,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'наименование уровня',
+			),
+			'gruppa' => array(
+				'type' => 'int',
+				'mysql_type' => 'tinyint',
+				'length' => 1,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'это группа',
+			),
+		),
+		'primary key' => array('levelid'),
+	);
+
+
+	$schema['orders'] = array(
+		'description' => 'Заказы',
+		'fields' => array(
+			'id' => array(
+				'type' => 'serial',
+				'length' => 10,
+				'not null' => TRUE,
+				'description' => 'код заказа',
+			),
+			'datetime' => array(
+				'type' => 'date',
+				'mysql_type' => 'datetime',
+				'not null' => TRUE,
+				'description' => 'дата добавления',
+			),
+			'user' => array(
+				'type' => 'int',
+				'length' => 10,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'клиент',
+			),
+			'body' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'тело заявки',
+			),
+			'status' => array(
+				'type' => 'enum',
+				'mysql_type' => 'enum(\'created\',\'ready\',\'accepted\',\'sellerrefused\',\'clientrefused\',\'purchasedpartially\',\'purchasedfull\',\'closed\')',
+
+				//'type' => 'enum(\'created\',\'ready\',\'accepted\',\'sellerrefused\',\'clientrefused\',\'purchasedpartially\',\'purchasedfull\',\'closed\')',
+				'not null' => TRUE,
+				'default' => 'created',
+				'description' => 'состояние заявки',
+			),
+			'oper' => array(
+				'type' => 'int',
+				'length' => 10,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'оператор',
+			),
+			'notinprice' => array(
+				'type' => 'int',
+				'mysql_type' => 'tinyint',
+				'length' => 1,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'нет в прайсе (произвольная заявка)',
+			),
+			'clientname' => array(
+				'type' => 'varchar',
+				'length' => 50,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'имя клиента',
+			),
+			'clientphone' => array(
+				'type' => 'varchar',
+				'length' => 50,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'телефон клиента',
+			),
+			'comment' => array(
+				'type' => 'varchar',
+				'length' => 400,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => '',
+			),
+		),
+		'primary key' => array('id'),
+	);
+
+
+	$schema['orderitems'] = array(
+		'description' => 'Позиции в заказах',
+		'fields' => array(
+			'id' => array(
+				'type' => 'serial',
+				'length' => 10,
+				'not null' => TRUE,
+				'description' => 'ключ',
+			),
+			'orderid' => array(
+				'type' => 'int',
+				'length' => 10,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'код заказа',
+			),
+			'oper' => array(
+				'type' => 'int',
+				'length' => 10,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'оператор',
+			),
+			'itemid' => array(
+				'type' => 'varchar',
+				'length' => 8,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'код товара',
+			),
+			'item' => array(
+				'type' => 'varchar',
+				'length' => 200,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'заказ заявки',
+			),
+			'price' => array(
+				'type' => 'numeric',
+				'precision' => 8,
+				'scale' => 2,
+				'decimal' => '.',
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'цена',
+			),
+			'cnt' => array(
+				'type' => 'int',
+				'mysql_type' => 'smallint',
+				'length' => 4,
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'количество',
+			),
+			'comment' => array(
+				'type' => 'varchar',
+				'length' => 200,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'комментарий',
+			),
+			'author' => array(
+				'type' => 'varchar',
+				'length' => 100,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'автор книги',
+			),
+			'izdat' => array(
+				'type' => 'varchar',
+				'length' => 100,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'издательство',
+			),
+			'isbn' => array(
+				'type' => 'varchar',
+				'length' => 20,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'isbn',
+			),
+			'pereplet' => array(
+				'type' => 'varchar',
+				'length' => 10,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'переплет',
+			),
+			'godizdan' => array(
+				'type' => 'varchar',
+				'length' => 4,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'год издания',
+			),
+			'status' => array(
+				'type' => 'enum',
+				'mysql_type' => 'enum(\'created\',\'ready\',\'accepted\',\'sellerrefused\',\'clientrefused\',\'purchasedpartially\',\'purchasedfull\',\'closed\')',
+				'not null' => TRUE,
+				'default' => 'created',
+				'description' => 'состояние заявки',
+			),
+		),
+		'primary key' => array('id'),
+		'foreign keys' => array(
+			'order_id' => array(
+				'table' => 'orders',
+        		'columns' => array('orderid' => 'id'),
+			 ),
+		),		
+	);
+
+	return $schema;
+}
+
+// внешние ключи не создаются, хоть и описываются в схеме. создавать надо либо в _install() либо вручную после
+// установки модуля и создания таблиц, но нужно будет предварительно их удалять если придется удалять модуль
+// вобщем я забил на создание внешних ключей. посмотрел в системных модулях, там есть описания ключей в файлах
+// .install, в самой же базе ключи не создаются. Может это из за того что mysql, может в других базах по
+// нормальному работает ?
+
+
+// function orderitems_install() {
+// 	// Make real foreign keys.
+// 	db_query('ALTER TABLE {orderitems} ADD CONSTRAINT {order_id} FOREIGN KEY orderid(orderid) REFERENCES {orders} (id) ON UPDATE CASCADE ON DELETE RESTRICT');
+// }
+
+// function orders_uninstall() {
+// 	// Make real foreign keys.
+// 	// work only for mysql
+// 	//db_query('ALTER TABLE {orderitems} DROP CONSTRAINT IF EXISTS {order_id}');
+// 	db_query('ALTER TABLE {orderitems} DROP FOREIGN KEY IF EXISTS {order_id}');
+// }

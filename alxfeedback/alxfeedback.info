@@ -1,0 +1,9 @@
+name = alxfeedback
+description = Форма обратной связи
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxfeedback.module
+configure = admin/config/feedbackform/readmessage
+
+stylesheets[all][] = alxfeedbackstyle.css

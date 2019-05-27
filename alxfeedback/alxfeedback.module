@@ -1,0 +1,207 @@
+<?php
+
+function alxfeedback_menu() {
+  $items['feedbackform'] = array(
+    'title' => 'Обратная связь',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alxfeedback_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM
+  );
+
+  $items['admin/config/feedbackform'] = array(
+    'title' => 'Обратная связь',
+    'description' => 'Сообщения присланные через форму обратной связи',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/feedbackform/readmessage'] = array(
+    'title' => 'Обратная связь',
+    'description' => 'Сообщения присланные через форму обратной связи',
+
+    'page callback' => 'feedback_messages',
+    // 'page callback' => 'drupal_get_form',
+    // 'page arguments' => array('messageread_form'),
+
+    'access arguments' => array('administer site configuration'),
+    'file' => 'feedback.admin.inc',
+  );
+
+
+  $items['admin/config/feedbackform/readmessage/%'] = array(
+    'title' => 'Сообщение обратной связи',
+    'description' => '',
+    'page callback' => 'show_message',
+    'page arguments' => array(4),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'feedback.admin.inc',
+  );
+
+
+  return $items;
+}
+
+
+
+/**
+ * Implements hook_block_info().
+ * Информация о блоке и дефолтные настройки.
+ */
+// function alxfeedback_block_info() {
+//   $blocks['feedback-form'] = array(
+//     'info' => t('Форма обратной связи для вопросов пользователей'),
+//     'cache' => DRUPAL_NO_CACHE,
+//   );
+//   return $blocks;
+// }
+
+
+function alxfeedback_form($form_state, &$form_submit) {
+  // global $user;
+
+  // $username = ''; $useremail = ''; $userphone = '';
+
+  // if($user->uid != 0) {
+  //   $user = user_load($user->uid);
+
+  //   $username = $user->field_fio['und'][0]['safe_value'];
+  //   $userphone = $user->field_phone['und'][0]['safe_value'];
+  //   $useremail = $user->mail;
+  // }
+
+
+  // $form['how_to_address'] = array(
+  //   '#markup' => '<p>Здесь Вы можете отправить сообщение главному редактору сайта.</p>',
+  // );
+
+  // $form['intro_message'] = array(
+  //   '#markup' => '<p>Если у Вас появились вопросы по работе нашего сайта, если Вы нашли неточность в материалах или у Вас есть предложение по улучшению обслуживания, Вы можете отправить сообщение по любому вопросу. Пожалуйста, заполните форму сообщения. Ваше сообщение будет прочитано и учтено в дальнейшей работе.</p>',
+  // );
+
+  $form['name'] = array(
+    '#title' => t('Ваше имя'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#maxlength' => 50,
+    '#size' => 30,
+    //'#value' => $username,
+  );
+
+  // $form['necessary_label'] = array(
+  //   '#markup' => '<p>Заполните телефон или e-mail для обратной связи</p>',
+  // );
+
+  $form['phone'] = array(
+    '#title' => t('Ваш телефон'),
+    '#type' => 'textfield',
+    '#required' => FALSE,
+    '#maxlength' => 50,
+    '#size' => 30,
+    //'#value' => $userphone,
+  );
+
+  $form['email'] = array(
+    '#title' => t('Ваш e-mail'),
+    '#type' => 'textfield',
+    '#required' => FALSE,
+    '#maxlength' => 50,
+    '#size' => 30,
+    //'#value' => $useremail,
+  );
+
+  $form['message'] = array(
+    '#title' => t('Ваше сообщение'),
+    '#type' => 'textarea',
+    '#required' => TRUE,
+    '#rows' => 10,
+    '#cols' => 60,
+    '#resizable' => FALSE
+  );
+
+
+  $form['submit'] = array(
+    '#type'=>'submit',
+    '#value'=>t('Отправить'),
+  );
+
+
+
+  return $form;
+}
+
+ 
+function alxfeedback_form_validate($form, &$form_state) {
+  //dpm($form_state['values']);
+  if (empty($form_state['values']['name'])) {
+    form_set_error('name', t('Заполните поле "Ваше имя"'));
+  }
+
+  if (empty($form_state['values']['phone']) && empty($form_state['values']['email']) ) {
+    form_set_error('phone', 'Заполните поле "Ваш телефон" или "Ваш e-mail"');
+    form_set_error('email', '');
+  }
+
+  if (empty($form_state['values']['message'])) {
+    form_set_error('message', 'Заполните поле "Ваше сообщение"');
+  }
+}
+
+
+function alxfeedback_form_submit($form, &$form_state) {
+    global $user;
+
+    //Получаем даные преданные из формы и пишем в переменные для удосбства
+    $name   = $form_state['values']['name'];
+    $phone  = $form_state['values']['phone'];
+    $email  = $form_state['values']['email'];
+    $message = $form_state['values']['message'];
+    $data = date('Y.m.d H:i:s');
+
+    // добавляем запись в базу
+    $id = db_insert('feedbackmessages')
+          ->fields(array(
+              'data' => $data,
+              'name' => $name,
+              'phone' => $phone,
+              'email' => $email,
+              'message' => $message,
+              'userid' => $user->uid,
+            ))->execute();
+
+
+    //Формируем тело письма
+    // $str  = "Имя ".$name."\r\n";
+    // $str .= "Телефон ".$phone."\r\n";
+
+    //Отправляем через функцию друпала
+    // На мейл администратора сайта variable_get('site_mail')
+    // drupal_mail('system', 'mail', variable_get('site_mail'), language_default(), array(
+    //   'context' => array(
+    //     'subject' => 'Заполнена форма обратного звонка',
+    //     'message' => $str,
+    //   )
+    // ));
+
+    drupal_set_message('Ваше сообщение отправлено');
+
+}
+
+
+function alxfeedback_theme($existing, $type, $theme, $path)
+{
+  return array(
+    'alxfeedback_form' => array(
+      'arguments' => array('form' => NULL),
+      'render element' => 'form',
+      'template' => 'alxfeedback-form',
+      'path' => drupal_get_path('module', 'alxfeedback'),
+    ),
+  );
+  
+}
+
+

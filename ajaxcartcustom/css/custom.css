@@ -1,0 +1,19 @@
+.minus{
+  background: url("../images/product_controls.png") no-repeat scroll 0 center rgba(0, 0, 0, 0);
+  cursor: pointer;
+  float: left;
+  height: 31px;
+  margin-right: 2px;
+  margin-left: 20px;
+  margin-top: 2px;
+  width: 17px;  
+}
+.plus{
+  background: url("../images/product_controls.png") no-repeat scroll -25px center rgba(0, 0, 0, 0);
+  cursor: pointer;
+  float: left;
+  height: 31px;
+  margin-left: 2px;
+  margin-top: 2px;
+  width: 17px;    
+}

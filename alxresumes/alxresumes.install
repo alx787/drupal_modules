@@ -1,0 +1,178 @@
+<?php
+
+// добавить идентификатор и имя пользователя если зарегистрирован
+
+function alxresumes_schema() {
+	$schema['resumes'] = array(
+		'description' => 'резюме от соискателей',
+		'fields' => array(
+			'id' => array(
+				'type' => 'serial',
+				'length' => 10,
+				'not null' => TRUE,
+				'description' => 'ключ',
+			),
+			'datetime' => array(
+				'type' => 'date',
+				'mysql_type' => 'date',
+				'not null' => TRUE,
+				'description' => 'дата',
+			),
+			'httpclientip' => array(
+				'type' => 'varchar',
+				'length' => 15,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'HTTP_CLIENT_IP',
+			),
+			'fio' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'фио',
+			),
+			'birthplacedate' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'дата и место рождения',
+			),
+			'addrreg' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'адрес регистрации',
+			),
+			'addrfakt' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'адрес фактического проживания',
+			),
+			'phones' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'контактные телефоны',
+			),
+			'familystat' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'семейное положение и дети',
+			),
+			'post' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'желаемая должность',
+			),
+			'salarylevel' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'желаемый уровень зарплаты',
+			),
+			'eduinst' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'учебное заведение',
+			),
+			'edudate' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'дата поступления - окончания',
+			),
+			'eduspecialty' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'специальность',
+			),
+			'eduaddition' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'дополнительное образование',
+			),
+			'ldatebagend' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'посл. место работы дата приема увольнения',
+			),
+			'lorganization' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'посл. место работы организация',
+			),
+			'lpost' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'посл. место работы должность',
+			),
+			'lresponsibility' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'посл. место работы обязанности',
+			),
+			'lreasondismiss' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'посл. место работы причина увольнения',
+			),
+			'pdatebagend' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'пред. место работы дата приема увольнения',
+			),
+			'porganization' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'пред. место работы организация',
+			),
+			'ppost' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'пред. место работы должность',
+			),
+			'presponsibility' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'пред. место работы обязанности',
+			),
+			'preasondismiss' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'пред. место работы причина увольнения',
+			),
+			'addpersqual' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'личные и проф. качества',
+			),
+			'addpc' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'знание пк',
+			),
+			'addsmoke' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'отношение к курению и алкоголю',
+			),
+			'addaboutself' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'доп. информация о себе',
+			),
+			'addinterest' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'чем заинтересовала вакансия',
+			),
+			'addwhereknow' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'источник информации о вакансии',
+			),
+			'addrecommend' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'description' => 'рекомендации с пред. мест работы',
+			),
+		),
+		'primary key' => array('id'),
+	);
+
+	return $schema;
+}

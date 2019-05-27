@@ -1,0 +1,7 @@
+name = alxsocial
+description = links for social shared (block)
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxsocial.module
+stylesheets[all][] = alxsocialstyle.css

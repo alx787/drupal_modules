@@ -1,0 +1,6 @@
+name = alxcatlink
+description = Catalog link on main page
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxcatlink.module

@@ -1,0 +1,6 @@
+name = alxresumes
+description = Прием резюме от соискателей
+core = 7.x
+package = Custom
+version = 1.0
+files[] = alxresumes.module

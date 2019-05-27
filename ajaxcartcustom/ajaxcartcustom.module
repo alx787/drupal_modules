@@ -1,0 +1,97 @@
+<?php
+
+// function ajaxcartcustom_block_info(){
+//   $block = array();
+//   $block['cart_light']['info'] = 'Корзина custom light';
+//   $block['cart_advanced']['info'] = 'Корзина custom advanced';
+//   return $block;
+// }
+
+// function ajaxcartcustom_block_view($delta = ''){
+//   $block = array();
+//   switch ($delta){
+//     case 'cart_light':
+
+//       $block['content'] = '';
+//       $block['subject'] = '';
+//       global $user;
+//       $order = commerce_cart_order_load($user->uid);
+//       $counter = 0;
+
+//       if(!empty($order->commerce_line_items)){
+//         foreach($order->commerce_line_items['und'] as $item){
+//           $counter++;
+//         }
+//       }
+//       $block['content'] .= '<div class="basket">'.' <a class="in-cart" href="/checkout">'. $counter . ' товаров </a></div>';
+//       break;
+  
+//     case 'cart_advanced':
+
+//       $block['content'] = '';
+//       $block['subject'] = '';
+//       global $user;
+//       $order = commerce_cart_order_load($user->uid);
+//       $counter = 0;
+//       //dsm($order);
+//       if(!empty($order->commerce_line_items)){
+//         foreach($order->commerce_line_items['und'] as $item){
+//           $counter++;
+//         }
+//       }
+//       $block['content'] .= '<div class="basket">'.' <a class="in-cart" href="/cart#content">'. $counter . ' товаров </a>';
+//       if(!empty($order->commerce_order_total) && $order->commerce_order_total['und'][0]['amount'] != 0){
+//         $block['content'] .= ' на сумму <strong>'. substr($order->commerce_order_total["und"][0]["amount"], 0,-2) . ' р</strong></div>';
+//       }else{
+//         $block['content'] .= ' 0,00 руб.<br /></div>';
+//       }
+//       break;
+//   }
+//   return $block;
+// }
+
+
+// function ajaxcartcustom_entity_view($entity, $type, $view_mode, $langcode){
+//   if(!empty($entity->type)){
+//     if($entity->type == 'commerce_order'){
+//       $entity->content['commerce_customer_billing']['#title'] = 'Информация о заказе';
+//     }
+//   }
+// }
+
+// function ajaxcartcustom_form_alter(&$form, &$form_state, $form_id){
+//   if($form['#form_id'] == 'views_form_commerce_cart_form_block_1'){
+//     $form['#action'] = $_SERVER['REQUEST_URI'];
+//   }
+//   if($form['#form_id'] == 'commerce_checkout_form_checkout'){
+//     unset($form['buttons']['cancel']);
+//     $form['buttons']['continue']['#value'] = 'Оформить заказ';
+//     $form['commerce_shipping']['#title'] = 'Выберите способ доставки';
+//     $form['commerce_payment']['#title'] = 'Выберите способ оплаты';
+//     $form['customer_profile_billing']['#title'] = 'Контактная информация';
+//   }
+// }
+
+function ajaxcartcustom_menu() {
+  $items = array();
+    $items['ajax/change-cart/%/%'] = array(
+      'page callback' => 'custom_ajax_change_cart', // Render HTML
+      'page arguments' => array(2,3),
+      'type' => MENU_CALLBACK,
+      'access callback' => TRUE,
+      //'access arguments' => array('access content'),  
+    );
+
+  //dpm($items);
+
+  return $items;
+}
+
+function custom_ajax_change_cart($quantity, $lineItemId) {
+  // global $user;
+  // $cart = commerce_cart_order_load($user->uid);
+  // $line_item = commerce_line_item_load($lineItemId);
+  // $line_item->quantity = $quantity;
+  // commerce_line_item_save($line_item);
+  return $lineItemId;
+}

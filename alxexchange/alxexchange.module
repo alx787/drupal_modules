@@ -1,0 +1,101 @@
+<?php
+
+function alxexchange_menu() {
+
+  $items['admin/config/dataexchange'] = array(
+    'title' => '_Обмен данными с 1С',
+    'description' => 'Обмен данными с 1С',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+
+  $items['admin/config/dataexchange/exchange'] = array(
+//  $items['admin/config/pricelist/dataexchange'] = array(
+    'title' => '_Обмен данными с 1С через таблицы обмена',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alxexchange_form'),
+//    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('administer site configuration'),
+    'file' => 'module.admin.inc',
+    //'weight' => -200,
+  );
+
+  return $items;
+}
+
+
+//////////////////////////////////////////////////////////////////
+// процедуры для планировщика заданий cron
+//////////////////////////////////////////////////////////////////
+
+// только для обновления каталога товаров и выгрузки заказов
+// структуру и категории обновлять вручную
+function alxexchange_cron() {
+    // //////////////////////////////////////////
+    // // загрузка каталога товаров на сайт
+    // //////////////////////////////////////////
+    // module_load_include('inc', 'alxexchange', 'module.catalog');
+
+    // alxexchange_set_catalog_published_off();
+
+    // $dataset = array();
+    // $dataset = alxexchange_load_catalog_in_massiv();
+
+    // // объявим очередь
+    // $queue_catalog_load = DrupalQueue::get('alx_exchange_catalog');
+    // foreach ($dataset as $oneData) {
+    //     $queue_catalog_load->createItem($oneData);
+    // }
+
+    // //////////////////////////////////////////
+    // // выгрузка заказов из сайта
+    // //////////////////////////////////////////
+    // module_load_include('inc', 'alxexchange', 'module.orders');
+
+    // $dataset = array();
+    // $dataset = alxexchange_load_orders_in_massiv();
+
+    // // объявим очередь
+    // $queue_catalog_load = DrupalQueue::get('alx_exchange_orders');
+    // foreach ($dataset as $oneData) {
+    //     $queue_catalog_load->createItem($oneData);
+    // }
+}
+
+// описание функции обработчика для обработки очереди
+function alxexchange_cron_queue_info() {
+    // $queues['alx_exchange_orders'] = array (
+    //     'worker callback' => 'alxexchange_cron_processor_orders',
+    //     'time' => 3600,    // Time, in seconds, to let this process run [Optional]
+    // );
+    
+    // $queues['alx_exchange_catalog'] = array (
+    //     'worker callback' => 'alxexchange_cron_processor_catalog',
+    //     'time' => 7200,    // Time, in seconds, to let this process run [Optional]
+    //     // за 4 минуты успевает сделать 1000 позиций
+    //     // 2 часа на обработку примерно 18000 позиций
+    // );
+
+
+
+    // return $queues;
+}
+
+// функция обработчик
+function alxexchange_cron_processor_catalog($data) {
+    //module_load_include('inc', 'alxexchange', 'module.catalog');
+    $context = array();
+    alxexchange_process_catalog($data, $context);
+}
+
+// функция обработчик
+function alxexchange_cron_processor_orders($data) {
+    //module_load_include('inc', 'alxexchange', 'module.catalog');
+    $context = array();
+    alxexchange_process_order($data, $context);
+}
